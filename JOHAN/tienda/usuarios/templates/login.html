@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1e90ff, #00c9a7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .contenedor {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 15px rgba(0,0,0,0.3);
+            text-align: center;
+            width: 300px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 95%;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background-color: #1e90ff;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0d6efd;
+        }
+
+        .mensaje {
+            margin-top: 10px;
+            font-weight: bold;
+            color: red;
+        }
+
+        a {
+            display: block;
+            margin-top: 15px;
+            color: #1e90ff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="contenedor">
+    <h2>Iniciar sesión 🔐</h2>
+
+    <!-- 🔔 MENSAJES -->
+    {% if mensaje %}
+        <p class="mensaje">{{ mensaje }}</p>
+    {% endif %}
+
+    <!-- 🔥 FORMULARIO CORRECTO -->
+    <form method="POST" action="{% url 'login' %}">
+        {% csrf_token %}
+
+        <input type="text" name="username" placeholder="Usuario" required>
+        <input type="password" name="password" placeholder="Contraseña" required>
+
+        <button type="submit">Ingresar</button>
+    </form>
+
+    <!-- 🔗 IR A REGISTRO -->
+    <a href="{% url 'registro' %}">¿No tienes cuenta? Regístrate</a>
+</div>
+
+</body>
+</html>

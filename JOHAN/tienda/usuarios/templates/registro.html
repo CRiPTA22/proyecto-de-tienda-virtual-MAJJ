@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Login Pro</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* 🌈 Fondo animado */
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(-45deg, #ff416c, #ff4b2b, #1e90ff, #00c9a7);
+    background-size: 400% 400%;
+    animation: fondoAnimado 10s ease infinite;
+}
+
+@keyframes fondoAnimado {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* 🧊 Contenedor */
+.container {
+    width: 380px;
+    height: 500px;
+    backdrop-filter: blur(15px);
+    background: rgba(255,255,255,0.1);
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
+    color: white;
+}
+
+/* Formularios */
+.form {
+    position: absolute;
+    width: 100%;
+    padding: 40px;
+    transition: 0.7s ease;
+}
+
+.login { left: 0; }
+.register { left: 100%; }
+
+.container.active .login {
+    left: -100%;
+    opacity: 0;
+}
+
+.container.active .register {
+    left: 0;
+    opacity: 1;
+}
+
+/* Inputs */
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    background: rgba(255,255,255,0.2);
+    color: white;
+}
+
+/* Botones */
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+/* Botones inferiores */
+.buttons {
+    position: absolute;
+    bottom: 15px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.buttons button {
+    width: 45%;
+}
+
+/* Mensajes */
+.mensaje {
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container" id="container">
+
+    <!-- 🔐 LOGIN -->
+    <div class="form login">
+        <h2>Bienvenido 🔥</h2>
+
+        {% if mensaje %}
+            <p class="mensaje">{{ mensaje }}</p>
+        {% endif %}
+
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+
+            <input type="text" name="username" placeholder="Usuario" required>
+            <input type="password" name="password" placeholder="Contraseña" required>
+
+            <button type="submit">Ingresar</button>
+        </form>
+    </div>
+
+    <!-- 🟢 REGISTRO -->
+    <div class="form register">
+        <h2>Crear Cuenta 🚀</h2>
+
+        {% if mensaje %}
+            <p class="mensaje">{{ mensaje }}</p>
+        {% endif %}
+
+        <form method="POST" action="{% url 'registro' %}">
+            {% csrf_token %}
+
+            <input type="text" name="username" placeholder="Usuario" required>
+            <input type="password" name="password" placeholder="Contraseña" required>
+            <input type="password" name="confirm_password" placeholder="Confirmar contraseña" required>
+
+            <button type="submit">Registrarse</button>
+        </form>
+    </div>
+
+    <!-- 🔁 BOTONES -->
+    <div class="buttons">
+        <button type="button" id="login">Login</button>
+        <button type="button" id="register">Registro</button>
+    </div>
+
+</div>
+
+<script>
+const container = document.getElementById('container');
+const registerBtn = document.getElementById('register');
+const loginBtn = document.getElementById('login');
+
+registerBtn.addEventListener('click', () => {
+    container.classList.add("active");
+});
+
+loginBtn.addEventListener('click', () => {
+    container.classList.remove("active");
+});
+</script>
+
+</body>
+</html>
