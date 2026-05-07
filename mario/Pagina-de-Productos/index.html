@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Empire 2.0 - Light Edition</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <style>
+        /* --- NUEVA PALETA DE COLORES EQUILIBRADA --- */
+        :root {
+            --gris-fondo: #f4f7f6;     /* Gris muy claro para el fondo */
+            --blanco-puro: #ffffff;    /* Blanco para las tarjetas */
+            --azul-celeste: #00d2ff;   /* Celeste para detalles */
+            --azul-oscuro: #003366;    /* Azul oscuro para el nav y botones */
+            --texto-oscuro: #333333;
+        }
+
+        body { 
+            background-color: var(--gris-fondo); 
+            color: var(--texto-oscuro); 
+            font-family: 'Segoe UI', sans-serif; 
+            overflow-x: hidden; 
+        }
+
+        /* Navbar en azul celeste y oscuro */
+        .navbar { 
+            background: linear-gradient(90deg, var(--azul-oscuro), var(--azul-celeste)); 
+            border-bottom: 3px solid var(--azul-oscuro);
+        }
+        
+        /* Tarjetas blancas con sombra suave */
+        .card { 
+            background-color: var(--blanco-puro); 
+            border-radius: 12px; 
+            border: none; 
+            transition: 0.4s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            height: 100%;
+        }
+        
+        .card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+        }
+
+        .img-producto { 
+            height: 180px; 
+            width: 100%;
+            object-fit: contain; 
+            padding: 15px; 
+        }
+
+        /* Botones en Azul Oscuro */
+        .btn-agregar { 
+            background-color: var(--azul-oscuro); 
+            color: white; 
+            border: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-agregar:hover { 
+            background-color: var(--azul-celeste); 
+            color: var(--azul-oscuro); 
+        }
+
+        /* Buscador */
+        .form-control { border-radius: 20px; border: 1px solid #ddd; }
+        
+        /* Filtros */
+        .btn-filtro { 
+            color: var(--azul-oscuro); 
+            border: 1px solid var(--azul-oscuro); 
+            margin: 5px; 
+            border-radius: 20px; 
+            background: white;
+        }
+        .btn-filtro.active { 
+            background-color: var(--azul-oscuro); 
+            color: white; 
+        }
+
+        /* Carrito lateral oscuro para contraste */
+        #carrito-lateral { 
+            background-color: var(--azul-oscuro); 
+            color: white; 
+            z-index: 2000; 
+        }
+        .text-info-custom { color: var(--azul-celeste); }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark shadow-sm sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold">MARKETPLACE JMJ</a>
+        <div class="flex-grow-1 mx-4">
+            <input type="text" id="buscador" class="form-control" placeholder="🔍 Buscar marcas o productos...">
+        </div>
+        <button class="btn btn-dark position-relative border-info" onclick="toggleCarrito()">
+            🛒 <span id="contador" class="badge bg-danger rounded-pill">0</span>
+        </button>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <div class="mb-5 text-center">
+        <button class="btn btn-filtro active" onclick="filtrar('todos')">Todos</button>
+        <button class="btn btn-filtro" onclick="filtrar('celular')">Celulares</button>
+        <button class="btn btn-filtro" onclick="filtrar('hardware')">Hardware</button>
+        <button class="btn btn-filtro" onclick="filtrar('tv')">Televisores</button>
+        <button class="btn btn-filtro" onclick="filtrar('sonido')">Sonido</button>
+    </div>
+
+    <div class="row" id="contenedor-productos">
+
+        <div class="col-md-3 mb-4 producto-item" data-nombre="iPhone 15 Pro" data-categoria="celular">
+            <div class="card p-2 text-center" onclick="window.location.href='iphone.html'" style="cursor:pointer;">
+                <img src="img/iphone.jpg" class="img-producto">
+                <div class="card-body">
+                    <h6 class="fw-bold">iPhone 15 Pro</h6>
+                    <p class="fw-bold text-primary">$3.500.000</p>
+                    <button class="btn btn-agregar btn-sm w-100 py-2">Añadir al carrito</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4 producto-item" data-nombre="Samsung S24 Ultra" data-categoria="celular">
+            <div class="card p-2 text-center" onclick="window.location.href='samsung.html'" style="cursor:pointer;">
+                <img src="img/samsung.jpg" class="img-producto">
+                <div class="card-body">
+                    <h6 class="fw-bold">Samsung S24 Ultra</h6>
+                    <p class="fw-bold text-primary">$3.800.000</p>
+                    <button class="btn btn-agregar btn-sm w-100 py-2">Añadir al carrito</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4 producto-item" data-nombre="Xiaomi Redmi Note 13" data-categoria="celular">
+            <div class="card p-2 text-center" onclick="window.location.href='xiaomi.html'" style="cursor:pointer;">
+                <img src="img/xiaomi.jpg" class="img-producto">
+                <div class="card-body">
+                    <h6 class="fw-bold">Xiaomi Redmi 13</h6>
+                    <p class="fw-bold text-primary">$800.000</p>
+                    <button class="btn btn-agregar btn-sm w-100 py-2">Añadir al carrito</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4 producto-item" data-nombre="NVIDIA RTX 4060" data-categoria="hardware">
+            <div class="card p-2 text-center" onclick="window.location.href='rtx4060.html'" style="cursor:pointer;">
+                <img src="img/rtx4060.jpg" class="img-producto">
+                <div class="card-body">
+                    <h6 class="fw-bold">RTX 4060 Ti</h6>
+                    <p class="fw-bold text-primary">$2.950.000</p>
+                    <button class="btn btn-agregar btn-sm w-100 py-2">Añadir al carrito</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4 producto-item" data-nombre="Memoria RAM DDR4" data-categoria="hardware">
+            <div class="card p-2 text-center" onclick="window.location.href='ram.html'" style="cursor:pointer;">
+                <img src="img/ram.jpg" class="img-producto">
+                <div class="card-body">
+                    <h6 class="fw-bold">RAM 16GB DDR4</h6>
+                    <p class="fw-bold text-primary">$480.000</p>
+                    <button class="btn btn-agregar btn-sm w-100 py-2">Añadir al carrito</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4 producto-item" data-nombre="Smart TV LG OLED" data-categoria="tv">
+            <div class="card p-2 text-center" onclick="window.location.href='tv-lg.html'" style="cursor:pointer;">
+                <img src="img/tv-lg.jpg" class="img-producto">
+                <div class="card-body">
+                    <h6 class="fw-bold">LG OLED 55"</h6>
+                    <p class="fw-bold text-primary">$3.800.000</p>
+                    <button class="btn btn-agregar btn-sm w-100 py-2">Añadir al carrito</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4 producto-item" data-nombre="Sonido Sony Party" data-categoria="sonido">
+            <div class="card p-2 text-center" onclick="window.location.href='sony.html'" style="cursor:pointer;">
+                <img src="img/sonido-sony.jpg" class="img-producto">
+                <div class="card-body">
+                    <h6 class="fw-bold">Sony High Power</h6>
+                    <p class="fw-bold text-primary">$2.100.000</p>
+                    <button class="btn btn-agregar btn-sm w-100 py-2">Añadir al carrito</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="carrito-lateral" class="position-fixed top-0 end-0 h-100 shadow-lg p-4" style="width: 350px; display: none;">
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-light pb-2">
+        <h4 class="m-0">Resumen</h4>
+        <button class="btn-close btn-close-white" onclick="toggleCarrito()"></button>
+    </div>
+    <div id="items-carrito" class="overflow-auto" style="max-height: 70%;"></div>
+    <div class="mt-auto border-top border-light pt-3">
+        <div class="d-flex justify-content-between fs-5 fw-bold">
+            <span>Total:</span>
+            <span id="total-precio" class="text-info-custom">$0</span>
+        </div>
+        <button class="btn btn-info w-100 mt-3 py-2 fw-bold text-dark">FINALIZAR COMPRA</button>
+    </div>
+</div>
+
+<div id="notificacion" class="position-fixed bottom-0 start-0 p-3" style="z-index: 3000;"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
