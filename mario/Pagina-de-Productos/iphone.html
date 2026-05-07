@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Producto - Marketplace JMJ</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+    header a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    header a:hover {
+        opacity: 0.8;
+        cursor: pointer;
+    }
+
+    /* ESTRELLAS - SELECTOR */
+    .star-selector {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+        gap: 4px;
+        margin-bottom: 10px;
+    }
+    .star-selector input { display: none; }
+    .star-selector label {
+        font-size: 2rem;
+        color: #ccc;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+    .star-selector input:checked ~ label,
+    .star-selector label:hover,
+    .star-selector label:hover ~ label {
+        color: #f5a623;
+    }
+
+    /* ESTRELLAS - RESEÑA */
+    .review-stars { color: #f5a623; font-size: 1.1rem; margin-bottom: 2px; }
+    .review-stars .empty-star { color: #ccc; }
+</style>
+</head>
+
+<body>
+
+<header>
+    <a href="index.html">
+        <h1>MARKETPLACE JMJ</h1>
+    </a>
+</header>
+
+<div class="container-title">
+    iPhone 15 Pro
+</div>
+
+<main>
+
+<div class="container-img">
+    <img src="img/iphone.jpg">
+</div>
+
+<div class="container-info-product">
+
+    <div class="container-price">
+        <span>$3.500.000</span>
+    </div>
+
+    <!-- DESCRIPCIÓN DEL PRODUCTO -->
+    <div class="product-description">
+
+        <h3>Descripción</h3>
+
+        <p>
+            El iPhone 15 Pro cuenta con un potente chip A17 Pro,
+            cámara profesional de alta resolución, diseño en titanio
+            y una pantalla Super Retina XDR ideal para gaming,
+            fotografía y uso diario.
+        </p>
+
+    </div>
+    <br>
+
+    <!-- BOTÓN AÑADIR AL CARRITO -->
+    <button class="btn-add-to-cart" id="cart-btn" onclick="showCartControls()">
+        Añadir al carrito
+    </button>
+
+    <!-- CONTADOR DEL CARRITO -->
+    <div id="cart-controls" style="display: none;">
+
+        <button onclick="decreaseQuantity()">-</button>
+
+        <span id="quantity">1</span>
+
+        <button onclick="increaseQuantity()">+</button>
+
+    </div>
+
+    <!-- RESEÑAS -->
+    <div class="section-reviews">
+
+        <h3>Reseñas</h3>
+
+        <div id="reviews-container">
+
+            <div class="review">
+                <div class="review-stars">★★★★★</div>
+                <div class="review-text">Excelente producto 🔥</div>
+            </div>
+
+            <div class="review">
+                <div class="review-stars">★★★★<span class="empty-star">★</span></div>
+                <div class="review-text">Muy buena calidad</div>
+            </div>
+
+        </div>
+
+        <div class="review-form">
+            <div class="star-selector">
+                <input type="radio" id="star5" name="rating" value="5">
+                <label for="star5">★</label>
+
+                <input type="radio" id="star4" name="rating" value="4">
+                <label for="star4">★</label>
+
+                <input type="radio" id="star3" name="rating" value="3">
+                <label for="star3">★</label>
+
+                <input type="radio" id="star2" name="rating" value="2">
+                <label for="star2">★</label>
+
+                <input type="radio" id="star1" name="rating" value="1">
+                <label for="star1">★</label>
+            </div>
+
+            <textarea id="new-review" placeholder="Escribe tu reseña..."></textarea>
+
+            <button onclick="addReview()">
+                Agregar reseña
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+</main>
+
+<!-- PRODUCTOS -->
+<section class="container-related-products">
+
+<h2 style="text-align:center;">Cambiar Producto</h2>
+
+<div class="card-list-products">
+
+    <!-- IPHONE -->
+    <div class="card" onclick="window.location.href='iphone.html'">
+        <img src="img/iphone.jpg">
+        <p>iPhone 15 Pro</p>
+    </div>
+
+    <!-- SAMSUNG -->
+    <div class="card" onclick="window.location.href='samsung.html'">
+        <img src="img/samsung.jpg">
+        <p>Samsung S24 Ultra</p>
+    </div>
+
+    <!-- RTX -->
+    <div class="card" onclick="window.location.href='rtx4060.html'">
+        <img src="img/rtx4060.jpg">
+        <p>RTX 4060 Ti</p>
+    </div>
+
+    <!-- TV -->
+    <div class="card" onclick="window.location.href='tv-lg.html'">
+        <img src="img/tv-lg.jpg">
+        <p>LG OLED 55"</p>
+    </div>
+
+</div>
+
+</section>
+
+<script>
+
+// ==========================
+// RESEÑAS
+// ==========================
+
+function addReview() {
+
+    const reviewText = document.getElementById("new-review").value;
+    const selectedStar = document.querySelector('input[name="rating"]:checked');
+
+    // Validar vacío
+    if (reviewText.trim() === "") {
+        alert("Por favor escribe una reseña");
+        return;
+    }
+
+    // Validar estrellas
+    if (!selectedStar) {
+        alert("Por favor selecciona una calificación con estrellas");
+        return;
+    }
+
+    const starCount = parseInt(selectedStar.value);
+
+    // Construir estrellas
+    let starsHTML = "";
+    for (let i = 1; i <= 5; i++) {
+        starsHTML += i <= starCount ? "★" : '<span class="empty-star">★</span>';
+    }
+
+    // Crear reseña
+    const newReview = document.createElement("div");
+    newReview.classList.add("review");
+    newReview.innerHTML = `
+        <div class="review-stars">${starsHTML}</div>
+        <div class="review-text">${reviewText}</div>
+    `;
+
+    // Agregar reseña
+    document.getElementById("reviews-container").appendChild(newReview);
+
+    // Limpiar formulario
+    document.getElementById("new-review").value = "";
+    selectedStar.checked = false;
+}
+
+
+// ==========================
+// CARRITO
+// ==========================
+
+// Cantidad inicial
+let quantity = 1;
+
+// Mostrar contador
+function showCartControls() {
+
+    // Ocultar botón
+    document.getElementById("cart-btn").style.display = "none";
+
+    // Mostrar controles
+    document.getElementById("cart-controls").style.display = "flex";
+}
+
+// Aumentar cantidad
+function increaseQuantity() {
+
+    quantity++;
+
+    document.getElementById("quantity").textContent = quantity;
+}
+
+// Disminuir cantidad
+function decreaseQuantity() {
+
+    if(quantity > 1){
+
+        quantity--;
+
+        document.getElementById("quantity").textContent = quantity;
+    }
+}
+
+</script>
+
+</body>
+</html>
